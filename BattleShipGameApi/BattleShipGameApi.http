@@ -1,0 +1,6 @@
+@BattleShipGameApi_HostAddress = http://localhost:5225
+
+GET {{BattleShipGameApi_HostAddress}}/BattleShipGame/
+Accept: application/json
+
+###
