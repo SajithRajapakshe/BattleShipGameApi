@@ -15,6 +15,7 @@ namespace BattleShipGameBL.Services
     public class BattleShipGameService : IBattleShipGameService
     {
         private readonly GameBoardStatus _gameBoardStatus;
+        Random _random = new Random();
 
         /// <summary>
         /// Constructor to inilialize the properties of the class.
@@ -80,10 +81,13 @@ namespace BattleShipGameBL.Services
                 ship.IsSunk = !ship.Spots.Any(s => s.Item1 > 0);
 
                 if (ship.IsSunk)
+                {
                     sunkShips.Add(ship.Name);
+                }
+
             }
 
-            var returnMessage = sunkShips.Count > 0 ? string.Format(Constants.SUNK_SHIPS, string.Concat(sunkShips, ',')) : Constants.HEAD_SHOT;
+            var returnMessage = sunkShips.Count > 0 ? string.Format(Constants.SUNK_SHIPS, string.Concat(sunkShips.Select(x => x), ',')) : Constants.HEAD_SHOT;
 
             return Task.FromResult(returnMessage);
         }
@@ -115,7 +119,7 @@ namespace BattleShipGameBL.Services
 
             foreach (var pos in positions)
             {
-                _gameBoardStatus.GameBoardGrid[pos.Item1, pos.Item2] = 1; // Mark as ship
+                _gameBoardStatus.GameBoardGrid[pos.Item1, pos.Item2] = 1; 
             }
 
             _gameBoardStatus.Ships.Add(new BattleShip { Name = battleShip.Name, Spots = positions });
@@ -129,8 +133,6 @@ namespace BattleShipGameBL.Services
         /// <returns></returns>
         private List<(int, int)> CreateRandomSpots(int size)
         {
-            Random _random = new Random();
-
             var isHorisontal = _random.Next(2) == 0;
             var spots = new List<(int, int)>();
 
@@ -171,7 +173,7 @@ namespace BattleShipGameBL.Services
 
             foreach (var pos in positions)
             {
-                _gameBoardStatus.GameBoardGrid[pos.Item1, pos.Item2] = 1; // Mark as ship
+                _gameBoardStatus.GameBoardGrid[pos.Item1, pos.Item2] = 1;
             }
 
             _gameBoardStatus.Ships.Add(new BattleShip { Name = battleShip.Name, Spots = positions });

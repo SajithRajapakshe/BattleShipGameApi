@@ -1,37 +1,33 @@
+using BattleShipGameBL.Helpers;
 using BattleShipGameBL.Models;
 using BattleShipGameBL.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Text.Json.Nodes;
 
 namespace BattleShipGameApi.Controllers
 {
     /// <summary>
     /// Api for handle operations of the battleship game
     /// </summary>
-    [Route("api/[controller]")]
+    
     public class BattleShipGameController : ControllerBase
     {
 
-        private readonly IBattleShipGameService _battleShipGameService;
-
-        /// <summary>
-        /// Constructor which injects the dependency of the service
-        /// </summary>
-        /// <param name="logger"></param>
-        /// <param name="service"></param>
-        public BattleShipGameController(IBattleShipGameService service)
-        {
-            _battleShipGameService = service;
-        }
+        private static IBattleShipGameService _battleShipGameService= new BattleShipGameService();
 
         /// <summary>
         /// Returns the current status of the game board.
         /// </summary>
         /// <returns></returns>
-        [HttpGet(Name = "GetGameBoardStatus")]
-        public async Task<GameBoardStatus> GetGameBoardStatus()
+        /// 
+        
+        [HttpGet]
+        [Route("BattleShipGameApi/GetGameBoardStatus")]
+        public async Task<string> GetGameBoardStatus()
         {
-            return await _battleShipGameService.GetGameBoardStatus();
-            
+            return JsonHelper.ConvertToJsonString(await _battleShipGameService.GetGameBoardStatus());
         }
 
         /// <summary>
@@ -41,9 +37,10 @@ namespace BattleShipGameApi.Controllers
         /// <param name="col"></param>
         /// <returns></returns>
         [HttpPost]
+        [Route("BattleShipGameApi/FireCannon")]
         public async Task<string> FireCannon(int row, int col)
         {
-            return await _battleShipGameService.FireCannon(row, col);
+            return JsonHelper.ConvertToJsonString(await _battleShipGameService.FireCannon(row, col));
         }
     }
 }
