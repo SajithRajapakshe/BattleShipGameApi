@@ -84,10 +84,11 @@ namespace BattleShipGameBL.Services
                 {
                     sunkShips.Add(ship.Name);
                 }
-
             }
 
-            var returnMessage = sunkShips.Count > 0 ? string.Format(Constants.SUNK_SHIPS, string.Concat(sunkShips.Select(x => x), ',')) : Constants.HEAD_SHOT;
+            var returnMessage = sunkShips.Count > 0 ?
+                string.Format(Constants.SUNK_SHIPS, sunkShips.FirstOrDefault()) :
+                Constants.HEAD_SHOT;
 
             return Task.FromResult(returnMessage);
         }
@@ -119,7 +120,7 @@ namespace BattleShipGameBL.Services
 
             foreach (var pos in positions)
             {
-                _gameBoardStatus.GameBoardGrid[pos.Item1, pos.Item2] = 1; 
+                _gameBoardStatus.GameBoardGrid[pos.Item1, pos.Item2] = 1;
             }
 
             _gameBoardStatus.Ships.Add(new BattleShip { Name = battleShip.Name, Spots = positions });

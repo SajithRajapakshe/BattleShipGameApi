@@ -20,7 +20,7 @@ namespace BattleShipGameBL
 
         public static string HEAD_SHOT = "Head shot, well done";
 
-        public static string SUNK_SHIPS = "Ship {0} already sunk";
+        public static string SUNK_SHIPS = "Ship {0} fully destroyed";
 
         public static string INVALID_INPUTS = "Invalid spot inputs, please try again";
 
